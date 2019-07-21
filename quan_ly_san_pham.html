@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NextPage</title>
+    <style>
+        li{
+            list-style-type:none;
+            text-align:justify;
+            line-height:35px;
+        }
+    </style>
+</head>
+<body>
+<form name="product">
+    <li>Add New Product
+        <input type="text" name="txtProduct" placeholder="New Product" id="product" >
+    </li>
+    <li><input type="button" name="add" value="Add" id="btnAdd" ></li>
+</form>
+<table border="1" width="50%" id="listingProduct">Display All Product
+    <thead>
+        <tr>
+            <tb>
+                <th>Product Name</th>
+                <th></th>
+                <th><div id="countProducts">0 Product</div></th>
+            </tb>
+        </tr>
+    </thead>
+
+</table>
+<form id="editProduct">
+    <li>Edit Product
+        <input type="text" name="txtEdit" id="inputEdit">
+    </li>
+    <li> <input type="button" name="btnEdit" id="EDIT" value="Edit" onclick = "update()"></li>
+    <li> <input type="button" name="btnX" id="xxx" value="X" onclick="displayNone()"></li>
+</form>
+<script>
+    document.getElementById('editProduct').style.display = "none";
+    let tbl = document.getElementById('listingProduct');
+    let btn = document.getElementById('btnAdd');
+    let nbr = 0;
+    var row_index;
+    btn.addEventListener('click',function(){
+        var newRow  = tbl.insertRow(-1);
+        var f 		= document.product;
+        var nameProduct 	= f.txtProduct.value;
+        nbr++;
+        newRow.insertCell(0).innerHTML = nameProduct;
+        newRow.insertCell(1).innerHTML = "<input type='button' value='Delete' id='btnDelete' onclick='onDel(this)' />";
+        newRow.insertCell(2).innerHTML = "<input type='button' value='Edit' id='btnEdit' onclick='onEdit(this)' />";
+        document.getElementById('countProducts').innerHTML = nbr+" Products";
+    });
+    function onDel(t){
+        var i = t.parentNode.parentNode.rowIndex;
+        //alert(totalRow);
+        if(confirm("Are you sure the delisted?")){
+            tbl.deleteRow(i);
+        }
+    }
+    function onEdit(t){
+        document.getElementById('editProduct').style.display = "block";
+        numberRow = t.parentNode.parentNode.rowIndex;
+        var cell = document.getElementById('listingProduct').rows[numberRow].cells;
+        row_index = numberRow;
+        console.log(row_index);
+        document.getElementById('inputEdit').value = cell[0].innerHTML;
+    }
+    function update(){
+        var cell = document.getElementById('listingProduct').rows[row_index].cells;
+        cell[0].innerHTML = document.getElementById('inputEdit').value ;
+        document.getElementById('editProduct').style.display = "none";
+        alert("Change success!");
+    }
+    function displayNone() {
+        document.getElementById('editProduct').style.display = "none";
+    }
+
+
+</script>
+
+</body>
+</html>
